@@ -1,0 +1,1352 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Nyi Min Htut · space developer</title>
+  <!-- Bootstrap 5 -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Font Awesome 6 -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <!-- Google Font: Inter -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300..700&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: "Inter", sans-serif;
+      background-color: #03050a;
+      color: #ffffff;
+      line-height: 1.6;
+      position: relative;
+      min-height: 100vh;
+    }
+
+    /* ===== SPACE BACKGROUND WITH MULTIPLE LAYERS ===== */
+    body::before {
+      content: '';
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: 
+        /* distant stars - tiny white dots */
+        radial-gradient(1px 1px at 5% 10%, rgba(255,255,255,0.8), transparent),
+        radial-gradient(1px 1px at 15% 25%, rgba(255,255,255,0.9), transparent),
+        radial-gradient(1.5px 1.5px at 22% 48%, rgba(255,255,255,0.8), transparent),
+        radial-gradient(1px 1px at 32% 67%, rgba(255,255,255,0.7), transparent),
+        radial-gradient(1px 1px at 41% 89%, rgba(255,255,255,0.8), transparent),
+        radial-gradient(2px 2px at 55% 15%, rgba(255,255,255,0.9), transparent),
+        radial-gradient(1.5px 1.5px at 63% 72%, rgba(255,255,255,0.8), transparent),
+        radial-gradient(1px 1px at 78% 35%, rgba(255,255,255,0.7), transparent),
+        radial-gradient(1.5px 1.5px at 86% 92%, rgba(255,255,255,0.8), transparent),
+        radial-gradient(2px 2px at 94% 55%, rgba(255,255,255,0.9), transparent),
+        
+        /* brighter stars - occasional bigger ones */
+        radial-gradient(3px 3px at 12% 82%, rgba(255,255,255,1), transparent),
+        radial-gradient(4px 4px at 48% 43%, rgba(255,255,255,0.9), transparent),
+        radial-gradient(3px 3px at 72% 61%, rgba(255,255,255,1), transparent),
+        radial-gradient(5px 5px at 91% 17%, rgba(255,255,255,0.8), transparent),
+        
+        /* colored stars - faint blue and red giants */
+        radial-gradient(4px 4px at 8% 44%, rgba(100, 150, 255, 0.6), transparent),
+        radial-gradient(3px 3px at 35% 28%, rgba(255, 180, 180, 0.5), transparent),
+        radial-gradient(4px 4px at 67% 89%, rgba(180, 210, 255, 0.6), transparent),
+        radial-gradient(3px 3px at 52% 95%, rgba(255, 200, 150, 0.5), transparent),
+        
+        /* moon - subtle crescent in corner */
+        radial-gradient(60px 60px at 90% 15%, rgba(220, 220, 240, 0.15), transparent 70%),
+        radial-gradient(40px 40px at 92% 18%, rgba(200, 200, 220, 0.1), transparent 60%),
+        
+        /* black hole effect - bottom left */
+        radial-gradient(200px 200px at -50px 90%, rgba(0, 0, 0, 0.9), transparent 80%),
+        radial-gradient(150px 150px at 5% 95%, rgba(20, 30, 60, 0.3), transparent 70%),
+        
+        /* galaxy swirls - very subtle */
+        conic-gradient(from 230deg at 20% 70%, rgba(40, 60, 120, 0.05), rgba(80, 40, 100, 0.05), transparent 70%),
+        conic-gradient(from 120deg at 80% 30%, rgba(30, 70, 130, 0.05), rgba(100, 50, 80, 0.05), transparent 70%),
+        
+        /* nebula patches - barely visible */
+        radial-gradient(300px 200px at 30% 20%, rgba(60, 40, 120, 0.03), transparent),
+        radial-gradient(400px 300px at 70% 80%, rgba(30, 60, 140, 0.03), transparent),
+        
+        /* base black */
+        #03050a;
+      background-repeat: no-repeat;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* additional stars animation - subtle twinkling */
+    body::after {
+      content: '';
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: 
+        radial-gradient(2px 2px at 19% 34%, rgba(255,255,255,0.4), transparent),
+        radial-gradient(2px 2px at 47% 71%, rgba(255,255,255,0.4), transparent),
+        radial-gradient(3px 3px at 83% 42%, rgba(255,255,255,0.4), transparent);
+      pointer-events: none;
+      z-index: 0;
+      opacity: 0;
+      animation: twinkle 4s infinite alternate;
+    }
+
+    @keyframes twinkle {
+      0% { opacity: 0; }
+      100% { opacity: 0.3; }
+    }
+
+    .container {
+      position: relative;
+      z-index: 2;
+      max-width: 1280px;
+      padding: 0 2rem;
+    }
+
+    section {
+      padding: 120px 0;
+      position: relative;
+    }
+
+    /* section title with glow */
+    h2 {
+      font-size: 2.5rem;
+      margin-bottom: 3.5rem;
+      font-weight: 500;
+      display: inline-block;
+      position: relative;
+      text-shadow: 0 0 20px rgba(37, 99, 235, 0.3);
+    }
+
+    h2::after {
+      content: '';
+      position: absolute;
+      bottom: -10px;
+      left: 0;
+      width: 60px;
+      height: 2px;
+      background: #2563eb;
+      box-shadow: 0 0 20px #2563eb;
+    }
+
+    h2 i {
+      color: #2563eb;
+      margin-right: 1rem;
+      filter: drop-shadow(0 0 15px #2563eb);
+    }
+
+    /* navigation with glass effect */
+    .navbar {
+      background: rgba(3, 5, 10, 0.8);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      border-bottom: 1px solid rgba(37, 99, 235, 0.3);
+      padding: 1.2rem 0;
+      position: sticky;
+      top: 0;
+      z-index: 10;
+    }
+
+    .navbar-brand {
+      color: #ffffff;
+      font-size: 1.5rem;
+      font-weight: 500;
+      text-decoration: none;
+    }
+
+    .navbar-brand i {
+      color: #2563eb;
+      margin-right: 8px;
+      filter: drop-shadow(0 0 10px #2563eb);
+    }
+
+    .nav-link {
+      color: #b0b7c5 !important;
+      font-weight: 400;
+      padding: 0.5rem 1.2rem !important;
+      transition: all 0.2s;
+    }
+
+    .nav-link:hover,
+    .nav-link.active {
+      color: #ffffff !important;
+      text-shadow: 0 0 15px #2563eb;
+    }
+
+    /* profile photo with cosmic ring */
+    .profile-frame {
+      width: 300px;
+      height: 300px;
+      margin: 0 auto;
+      border-radius: 50%;
+      padding: 5px;
+      background: linear-gradient(135deg, #2563eb, #7b3fe4);
+      box-shadow: 0 0 50px rgba(37, 99, 235, 0.5);
+      position: relative;
+    }
+
+    .profile-frame::before {
+      content: '';
+      position: absolute;
+      top: -10px;
+      left: -10px;
+      right: -10px;
+      bottom: -10px;
+      border-radius: 50%;
+      background: radial-gradient(circle at 30% 30%, rgba(255,255,255,0.1), transparent 70%);
+      pointer-events: none;
+    }
+
+    .profile-img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border-radius: 50%;
+      border: 3px solid #03050a;
+    }
+
+    /* skill chips - cosmic style */
+    .skill-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(10, 15, 25, 0.7);
+      backdrop-filter: blur(5px);
+      border: 1px solid rgba(37, 99, 235, 0.3);
+      border-radius: 100px;
+      padding: 0.6rem 1.4rem;
+      font-size: 0.95rem;
+      color: #e0e4f0;
+      margin: 0.25rem;
+      transition: all 0.2s;
+      box-shadow: 0 0 20px rgba(0,0,0,0.5);
+    }
+
+    .skill-chip i {
+      font-size: 1.2rem;
+      filter: drop-shadow(0 0 8px currentColor);
+    }
+
+    .skill-chip:hover {
+      border-color: #2563eb;
+      box-shadow: 0 0 30px rgba(37, 99, 235, 0.4);
+      transform: translateY(-2px);
+    }
+
+    /* ===== PROJECT CARDS WITH UNSPLASH IMAGES ===== */
+    .project-card {
+      background: rgba(10, 15, 25, 0.8);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(37, 99, 235, 0.2);
+      border-radius: 24px;
+      overflow: hidden;
+      height: 100%;
+      transition: all 0.3s;
+      box-shadow: 0 20px 40px -15px #000;
+    }
+
+    .project-card:hover {
+      border-color: #2563eb;
+      box-shadow: 0 0 40px rgba(37, 99, 235, 0.4);
+      transform: translateY(-8px);
+    }
+
+    .project-img {
+      width: 100%;
+      height: 200px;
+      object-fit: cover;
+      border-bottom: 1px solid rgba(37, 99, 235, 0.3);
+    }
+
+    .project-content {
+      padding: 2rem;
+    }
+
+    .project-tech {
+      display: flex;
+      gap: 1.2rem;
+      font-size: 2rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .project-tech i {
+      filter: drop-shadow(0 0 15px currentColor);
+    }
+
+    .project-card h3 {
+      margin-bottom: 1rem;
+      font-size: 1.5rem;
+    }
+
+    .project-card p {
+      color: #b0b7c5;
+      margin-bottom: 1.5rem;
+      line-height: 1.7;
+    }
+
+    .project-link {
+      color: #2563eb;
+      text-decoration: none;
+      font-weight: 500;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      transition: gap 0.2s;
+    }
+
+    .project-link:hover {
+      gap: 0.8rem;
+    }
+
+    /* ===== ENHANCED EXPERIENCE CARDS ===== */
+    .exp-card {
+      background: rgba(10, 15, 25, 0.7);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(37, 99, 235, 0.2);
+      border-radius: 24px;
+      padding: 2rem;
+      margin-bottom: 2rem;
+      transition: all 0.3s;
+    }
+
+    .exp-card:hover {
+      border-color: #2563eb;
+      box-shadow: 0 0 30px rgba(37, 99, 235, 0.3);
+      transform: translateY(-4px);
+    }
+
+    .exp-header {
+      display: flex;
+      align-items: center;
+      gap: 1.5rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .exp-icon {
+      width: 60px;
+      height: 60px;
+      background: rgba(37, 99, 235, 0.1);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2rem;
+      border: 1px solid #2563eb;
+    }
+
+    .exp-date {
+      color: #2563eb;
+      font-size: 0.9rem;
+      margin-bottom: 0.25rem;
+    }
+
+    .exp-title {
+      font-size: 1.5rem;
+      margin-bottom: 0.25rem;
+    }
+
+    .exp-company {
+      color: #b0b7c5;
+      margin-bottom: 0.5rem;
+    }
+
+    .exp-list {
+      list-style: none;
+      padding: 0;
+    }
+
+    .exp-list li {
+      margin-bottom: 0.75rem;
+      display: flex;
+      gap: 1rem;
+      color: #b0b7c5;
+    }
+
+    .exp-list li i {
+      color: #2563eb;
+      width: 20px;
+      margin-top: 3px;
+    }
+
+    /* ===== ENHANCED EDUCATION CARDS WITH LOGOS ===== */
+    .edu-card {
+      background: rgba(10, 15, 25, 0.7);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(37, 99, 235, 0.2);
+      border-radius: 24px;
+      padding: 2rem;
+      margin-bottom: 2rem;
+      transition: all 0.3s;
+      display: flex;
+      gap: 1.5rem;
+      align-items: center;
+    }
+
+    .edu-card:hover {
+      border-color: #2563eb;
+      box-shadow: 0 0 30px rgba(37, 99, 235, 0.3);
+    }
+
+    .edu-logo {
+      width: 80px;
+      height: 80px;
+      background: white;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2.5rem;
+      overflow: hidden;
+      flex-shrink: 0;
+    }
+
+    .edu-logo img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+    }
+
+    .edu-content h3 {
+      margin-bottom: 0.5rem;
+    }
+
+    .edu-content p {
+      color: #b0b7c5;
+      margin-bottom: 0.25rem;
+    }
+
+    .edu-date {
+      color: #2563eb;
+      font-size: 0.9rem;
+    }
+
+    /* ===== ENHANCED CERTIFICATION GRID ===== */
+    .cert-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 1rem;
+      margin-top: 1rem;
+    }
+
+    .cert-card {
+      background: rgba(10, 15, 25, 0.7);
+      backdrop-filter: blur(5px);
+      border: 1px solid rgba(37, 99, 235, 0.2);
+      border-radius: 16px;
+      padding: 1.5rem;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      transition: all 0.2s;
+    }
+
+    .cert-card:hover {
+      border-color: #2563eb;
+      box-shadow: 0 0 20px rgba(37, 99, 235, 0.3);
+    }
+
+    .cert-logo {
+      width: 50px;
+      height: 50px;
+      background: white;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.8rem;
+      overflow: hidden;
+      flex-shrink: 0;
+    }
+
+    .cert-logo img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+    }
+
+    .cert-info h4 {
+      font-size: 1.1rem;
+      margin-bottom: 0.25rem;
+    }
+
+    .cert-info p {
+      color: #b0b7c5;
+      font-size: 0.9rem;
+    }
+
+    /* contact items - cosmic */
+    .contact-item {
+      display: flex;
+      align-items: center;
+      gap: 1.2rem;
+      padding: 1rem 1.5rem;
+      background: rgba(10, 15, 25, 0.7);
+      backdrop-filter: blur(5px);
+      border: 1px solid rgba(37, 99, 235, 0.2);
+      border-radius: 16px;
+      margin-bottom: 1rem;
+      transition: all 0.2s;
+      color: #e0e4f0;
+      text-decoration: none;
+    }
+
+    .contact-item:hover {
+      border-color: #2563eb;
+      box-shadow: 0 0 30px rgba(37, 99, 235, 0.3);
+      transform: translateX(5px);
+    }
+
+    .contact-item i {
+      width: 24px;
+      font-size: 1.3rem;
+      filter: drop-shadow(0 0 10px currentColor);
+    }
+
+    /* form elements - cosmic */
+    .minimal-input {
+      background: rgba(10, 15, 25, 0.7);
+      backdrop-filter: blur(5px);
+      border: 1px solid rgba(37, 99, 235, 0.2);
+      border-radius: 16px;
+      padding: 1rem 1.5rem;
+      color: white;
+      width: 100%;
+      transition: all 0.2s;
+    }
+
+    .minimal-input:focus {
+      outline: none;
+      border-color: #2563eb;
+      box-shadow: 0 0 30px rgba(37, 99, 235, 0.3);
+    }
+
+    .minimal-input::placeholder {
+      color: #6b7280;
+    }
+
+    .btn-minimal {
+      background: rgba(10, 15, 25, 0.7);
+      backdrop-filter: blur(5px);
+      border: 1px solid #2563eb;
+      color: white;
+      border-radius: 40px;
+      padding: 1rem 2rem;
+      width: 100%;
+      font-weight: 500;
+      transition: all 0.2s;
+      box-shadow: 0 0 20px rgba(37, 99, 235, 0.2);
+    }
+
+    .btn-minimal:hover {
+      background: #2563eb;
+      color: #03050a;
+      box-shadow: 0 0 40px #2563eb;
+    }
+
+    /* footer - cosmic */
+    .footer {
+      padding: 5rem 0;
+      border-top: 1px solid rgba(37, 99, 235, 0.3);
+      margin-top: 4rem;
+      background: rgba(3, 5, 10, 0.9);
+      backdrop-filter: blur(10px);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .footer::before {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 100px;
+      background: radial-gradient(ellipse at 50% 100%, rgba(37, 99, 235, 0.1), transparent);
+      pointer-events: none;
+    }
+
+    .footer-links {
+      display: flex;
+      justify-content: center;
+      gap: 3rem;
+      margin-bottom: 2.5rem;
+    }
+
+    .footer-links a {
+      color: #6b7280;
+      font-size: 1.6rem;
+      transition: all 0.2s;
+    }
+
+    .footer-links a:hover {
+      color: #2563eb;
+      filter: drop-shadow(0 0 20px #2563eb);
+    }
+
+    .footer-text {
+      color: #6b7280;
+      font-size: 0.95rem;
+      text-align: center;
+    }
+
+    /* badge */
+    .badge {
+      display: inline-block;
+      border: 1px solid #2563eb;
+      color: #ffffff;
+      padding: 0.5rem 1.5rem;
+      border-radius: 100px;
+      font-size: 0.9rem;
+      margin-bottom: 2rem;
+      background: rgba(37, 99, 235, 0.1);
+      backdrop-filter: blur(5px);
+      box-shadow: 0 0 20px rgba(37, 99, 235, 0.2);
+    }
+
+    hr {
+      border: none;
+      border-top: 1px solid rgba(37, 99, 235, 0.2);
+      margin: 2rem auto;
+      max-width: 1200px;
+    }
+
+    /* moon icon animation */
+    .moon-icon {
+      display: inline-block;
+      animation: moonGlow 3s infinite alternate;
+    }
+
+    @keyframes moonGlow {
+      0% { filter: drop-shadow(0 0 5px #ffffff); }
+      100% { filter: drop-shadow(0 0 20px #2563eb); }
+    }
+
+    /* ===== ABOUT SECTION STYLES ===== */
+    .about-section {
+      background: rgba(10, 15, 25, 0.6);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid rgba(37, 99, 235, 0.3);
+      border-radius: 40px;
+      padding: 3rem;
+      box-shadow: 0 25px 50px -15px #000, 0 0 50px rgba(37, 99, 235, 0.2);
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* flying icons container */
+    .flying-icons {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    .flying-icon {
+      position: absolute;
+      font-size: 2rem;
+      filter: drop-shadow(0 0 15px currentColor);
+      animation: flyAround 20s infinite linear;
+      opacity: 0.7;
+    }
+
+    /* different animation speeds and paths for each icon */
+    @keyframes flyAround {
+      0% {
+        transform: translate(0, 0) rotate(0deg);
+      }
+      25% {
+        transform: translate(30px, -30px) rotate(90deg);
+      }
+      50% {
+        transform: translate(60px, 0) rotate(180deg);
+      }
+      75% {
+        transform: translate(30px, 30px) rotate(270deg);
+      }
+      100% {
+        transform: translate(0, 0) rotate(360deg);
+      }
+    }
+
+    /* individual icon positions and delays */
+    .icon-1 { top: 10%; left: 5%; color: #e34c26; animation-duration: 18s; animation-delay: -2s; } /* HTML5 */
+    .icon-2 { top: 20%; right: 8%; color: #264de4; animation-duration: 22s; animation-delay: -5s; } /* CSS3 */
+    .icon-3 { bottom: 15%; left: 10%; color: #f7df1e; animation-duration: 25s; animation-delay: -8s; } /* JS */
+    .icon-4 { top: 15%; right: 15%; color: #4fc08d; animation-duration: 20s; animation-delay: -3s; } /* Vue */
+    .icon-5 { bottom: 25%; right: 12%; color: #61dafb; animation-duration: 28s; animation-delay: -12s; } /* React */
+    .icon-6 { bottom: 10%; right: 25%; color: #7952b3; animation-duration: 24s; animation-delay: -7s; } /* Bootstrap */
+    .icon-7 { top: 30%; left: 15%; color: #06b6d4; animation-duration: 26s; animation-delay: -15s; } /* Tailwind */
+    .icon-8 { top: 40%; right: 20%; color: #777bb4; animation-duration: 21s; animation-delay: -9s; } /* PHP */
+    .icon-9 { bottom: 40%; left: 20%; color: #ff2d20; animation-duration: 23s; animation-delay: -4s; } /* Laravel */
+    .icon-10 { top: 50%; left: 8%; color: #00758f; animation-duration: 27s; animation-delay: -11s; } /* MySQL */
+    .icon-11 { bottom: 30%; right: 18%; color: #f24e1e; animation-duration: 19s; animation-delay: -6s; } /* Figma */
+    .icon-12 { top: 60%; right: 5%; color: #3776ab; animation-duration: 29s; animation-delay: -13s; } /* Python */
+    .icon-13 { bottom: 45%; left: 25%; color: #007396; animation-duration: 22s; animation-delay: -10s; } /* Java */
+    .icon-14 { top: 70%; left: 12%; color: #00599c; animation-duration: 26s; animation-delay: -14s; } /* C++ */
+
+    .about-content {
+      display: flex;
+      gap: 4rem;
+      align-items: center;
+      position: relative;
+      z-index: 3;
+      flex-wrap: wrap;
+    }
+
+    .avatar-container {
+      flex: 0 0 280px;
+      position: relative;
+    }
+
+    .avatar-frame {
+      width: 280px;
+      height: 280px;
+      border-radius: 50%;
+      padding: 5px;
+      background: linear-gradient(135deg, #2563eb, #7b3fe4);
+      box-shadow: 0 0 60px rgba(37, 99, 235, 0.6);
+      position: relative;
+      animation: glowPulse 3s infinite alternate;
+    }
+
+    @keyframes glowPulse {
+      0% { box-shadow: 0 0 40px rgba(37, 99, 235, 0.5); }
+      100% { box-shadow: 0 0 80px rgba(37, 99, 235, 0.8); }
+    }
+
+    .avatar-img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border-radius: 50%;
+      border: 3px solid #03050a;
+      background: #111827;
+    }
+
+    .floating-dev-icon {
+      position: absolute;
+      width: 50px;
+      height: 50px;
+      background: rgba(37, 99, 235, 0.2);
+      backdrop-filter: blur(5px);
+      border: 1px solid #2563eb;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.5rem;
+      color: #2563eb;
+      animation: orbit 8s infinite linear;
+    }
+
+    .dev-icon-1 { top: -20px; left: 50%; transform: translateX(-50%); animation-delay: -2s; }
+    .dev-icon-2 { bottom: -20px; left: 50%; transform: translateX(-50%); animation-delay: -6s; }
+    .dev-icon-3 { left: -20px; top: 50%; transform: translateY(-50%); animation-delay: -4s; }
+    .dev-icon-4 { right: -20px; top: 50%; transform: translateY(-50%); animation-delay: -8s; }
+
+    @keyframes orbit {
+      from { transform: rotate(0deg) translateX(120px) rotate(0deg); }
+      to { transform: rotate(360deg) translateX(120px) rotate(-360deg); }
+    }
+
+    .text-content {
+      flex: 1;
+      min-width: 300px;
+    }
+
+    .highlight {
+      color: #2563eb;
+      font-weight: 500;
+    }
+
+    .description {
+      color: #b0b7c5;
+      font-size: 1.1rem;
+      line-height: 1.8;
+      margin-bottom: 2rem;
+    }
+
+    .education-tags {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+      margin-top: 2rem;
+    }
+
+    .edu-tag {
+      background: rgba(37, 99, 235, 0.1);
+      border: 1px solid rgba(37, 99, 235, 0.3);
+      border-radius: 40px;
+      padding: 0.8rem 1.5rem;
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+      transition: all 0.2s;
+    }
+
+    .edu-tag:hover {
+      border-color: #2563eb;
+      transform: translateY(-2px);
+      box-shadow: 0 0 30px rgba(37, 99, 235, 0.3);
+    }
+
+    .edu-tag i {
+      color: #2563eb;
+      font-size: 1.2rem;
+    }
+
+    .edu-tag span {
+      color: #e0e4f0;
+      font-weight: 400;
+    }
+
+    .stats {
+      display: flex;
+      gap: 2.5rem;
+      margin-top: 2.5rem;
+      flex-wrap: wrap;
+    }
+
+    .stat-item {
+      text-align: center;
+    }
+
+    .stat-number {
+      font-size: 2rem;
+      font-weight: 600;
+      color: #2563eb;
+      margin-bottom: 0.25rem;
+    }
+
+    .stat-label {
+      color: #8f96a3;
+      font-size: 0.9rem;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    @media (max-width: 768px) {
+      h1 { font-size: 3rem; }
+      h2 { font-size: 2rem; }
+      section { padding: 80px 0; }
+      .profile-frame { width: 240px; height: 240px; }
+      .edu-card { flex-direction: column; text-align: center; }
+      .about-section { padding: 2rem; }
+      .avatar-container { flex: 0 0 200px; }
+      .avatar-frame { width: 200px; height: 200px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- navigation -->
+  <nav class="navbar">
+    <div class="container d-flex justify-content-between align-items-center">
+      <a href="#" class="navbar-brand"><i class="fas fa-moon moon-icon"></i> nmh.space</a>
+      <div>
+        <a href="#home" class="nav-link d-inline-block active">home</a>
+        <a href="#about" class="nav-link d-inline-block">about</a>
+        <a href="#projects" class="nav-link d-inline-block">projects</a>
+        <a href="#experience" class="nav-link d-inline-block">experience</a>
+        <a href="#education" class="nav-link d-inline-block">education</a>
+        <a href="#contact" class="nav-link d-inline-block">contact</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- home -->
+  <section id="home">
+    <div class="container">
+      <div class="row g-5 align-items-center">
+        <div class="col-lg-5 text-center">
+          <div class="profile-frame">
+            <img src="./images/nmh_profile.jpg" alt="Nyi Min Htut" class="profile-img">
+          </div>
+          <div class="mt-4 d-flex justify-content-center gap-3">
+            <a href="https://github.com/Nyi-Min-Htut" style="color: #ffffff; font-size: 1.8rem;"><i class="fab fa-github"></i></a>
+            <a href="https://www.linkedin.com/in/nyi-min-htut-104905247/" style="color: #ffffff; font-size: 1.8rem;"><i class="fab fa-linkedin"></i></a>
+          </div>
+        </div>
+        <div class="col-lg-7">
+          <div class="badge"><i class="fas fa-star me-2"></i>full-stack developer</div>
+          <h1>Nyi Min Htut</h1>
+          <p style="color: #b0b7c5; font-size: 1.2rem; margin-bottom: 2rem;">Computer Student at NCC Education · English Major at Dagon University</p>
+          <p style="color: #8f96a3; margin-bottom: 2.5rem; max-width: 550px;">Creating cosmic web experiences with modern technologies. Based in Yangon, working globally.</p>
+          <div class="d-flex justify-content-center flex-wrap gap-2">
+            <span class="skill-chip"><i class="fas fa-envelope" style="color: #ea4335;"></i>nyiminhtut2003@gmail.com</span>
+            <span class="skill-chip"><i class="fas fa-phone-alt" style="color: #34a853;"></i>09443250159</span>
+            <span class="skill-chip"><i class="fas fa-map-pin" style="color: #fbbc05;"></i>Tamwe, Yangon</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <hr>
+
+  <!-- ===== ABOUT SECTION ===== -->
+  <section id="about">
+    <div class="container">
+      <h2><i class="fas fa-user-astronaut"></i>about me</h2>
+      <div class="about-section">
+        
+        <!-- Flying Icons (frameworks and languages) -->
+        <!-- <div class="flying-icons">
+          <i class="fab fa-html5 flying-icon icon-1"></i>
+          <i class="fab fa-css3-alt flying-icon icon-2"></i>
+          <i class="fab fa-js flying-icon icon-3"></i>
+          <i class="fab fa-vuejs flying-icon icon-4"></i>
+          <i class="fab fa-react flying-icon icon-5"></i>
+          <i class="fab fa-bootstrap flying-icon icon-6"></i>
+          <i class="fab fa-tailwind-css flying-icon icon-7"></i>
+          <i class="fab fa-php flying-icon icon-8"></i>
+          <i class="fas fa-bolt flying-icon icon-9"></i>
+          <i class="fas fa-database flying-icon icon-10"></i>
+          <i class="fab fa-figma flying-icon icon-11"></i>
+          <i class="fab fa-python flying-icon icon-12"></i>
+          <i class="fab fa-java flying-icon icon-13"></i>
+          <i class="fas fa-code flying-icon icon-14"></i>
+        </div> -->
+
+   
+
+          <!-- Text Content -->
+          <div class="text-content">
+            <div class="badge">
+              <i class="fas fa-user-astronaut me-2"></i>who i am
+            </div>
+            
+            <div class="description">
+              <p>I am a computer student at <span class="highlight">NCC Education (KMD College)</span> and an English Major student at <span class="highlight">Dagon University</span> with a passion for technology, especially programming and UI/UX design.</p>
+              
+              <p style="margin-top: 1.5rem;">Currently, I am seeking roles in <span class="highlight">web development, UI/UX design, and web design</span>. I am good at creating user-friendly UI designs that enhance the overall user experience. Additionally, I possess strong problem-solving skills and can develop complex, dynamic, and responsive websites.</p>
+              
+              <p style="margin-top: 1.5rem;">I am eager to contribute my skills and creativity to a technology company.</p>
+            </div>
+
+            <!-- Education Tags -->
+            <div class="education-tags">
+              <div class="edu-tag">
+                <i class="fas fa-university"></i>
+                <span>NCC Education (KMD College)</span>
+              </div>
+              <div class="edu-tag">
+                <i class="fas fa-graduation-cap"></i>
+                <span>Dagon University</span>
+              </div>
+              <div class="edu-tag">
+                <i class="fas fa-certificate"></i>
+                <span>UI/UX Design</span>
+              </div>
+            </div>
+
+            <!-- Stats -->
+            <div class="stats">
+              <div class="stat-item">
+                <div class="stat-number">10+</div>
+                <div class="stat-label">Projects</div>
+              </div>
+              <div class="stat-item">
+                <div class="stat-number">7</div>
+                <div class="stat-label">Certifications</div>
+              </div>
+              <div class="stat-item">
+                <div class="stat-number">2</div>
+                <div class="stat-label">Universities</div>
+              </div>
+              <div class="stat-item">
+                <div class="stat-number">∞</div>
+                <div class="stat-label">Passion</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <hr>
+
+  <!-- skills -->
+  <section>
+    <div class="container">
+      <h2><i class="fas fa-star"></i>skills</h2>
+      
+      <div style="margin-bottom: 3rem;">
+        <h3 style="color: #b0b7c5; margin-bottom: 1.5rem; font-weight: 400;">frontend</h3>
+        <div class="d-flex justify-content-center flex-wrap">
+          <span class="skill-chip"><i class="fab fa-html5" style="color: #e34c26;"></i>HTML5</span>
+          <span class="skill-chip"><i class="fab fa-css3-alt" style="color: #264de4;"></i>CSS3</span>
+          <span class="skill-chip"><i class="fab fa-bootstrap" style="color: #7952b3;"></i>Bootstrap</span>
+          <span class="skill-chip"><i class="fab fa-tailwind-css" style="color: #06b6d4;"></i>Tailwind</span>
+          <span class="skill-chip"><i class="fab fa-js" style="color: #f7df1e;"></i>JavaScript</span>
+          <span class="skill-chip"><i class="fab fa-vuejs" style="color: #4fc08d;"></i>Vue.js</span>
+          <span class="skill-chip"><i class="fab fa-react" style="color: #61dafb;"></i>React.js</span>
+          <span class="skill-chip"><i class="fab fa-sass" style="color: #cc6699;"></i>SCSS</span>
+          <span class="skill-chip"><i class="fab fa-figma" style="color: #f24e1e;"></i>Figma</span>
+          <span class="skill-chip"><i class="fas fa-paint-brush" style="color: #ff7b9c;"></i>UI/UX</span>
+        </div>
+      </div>
+
+      <div style="margin-bottom: 3rem;">
+        <h3 style="color: #b0b7c5; margin-bottom: 1.5rem; font-weight: 400;">backend</h3>
+        <div class="d-flex justify-content-center flex-wrap">
+          <span class="skill-chip"><i class="fab fa-php" style="color: #777bb4;"></i>PHP</span>
+          <span class="skill-chip"><i class="fas fa-bolt" style="color: #ff2d20;"></i>Laravel</span>
+          <span class="skill-chip"><i class="fas fa-database" style="color: #00758f;"></i>MySQL</span>
+          <span class="skill-chip"><i class="fas fa-cloud" style="color: #2563eb;"></i>RESTful API</span>
+          <span class="skill-chip"><i class="fab fa-python" style="color: #3776ab;"></i>Python</span>
+          <span class="skill-chip"><i class="fas fa-code" style="color: #00599c;"></i>C++</span>
+          <span class="skill-chip"><i class="fab fa-java" style="color: #007396;"></i>Java</span>
+        </div>
+      </div>
+
+      <div>
+        <h3 style="color: #b0b7c5; margin-bottom: 1.5rem; font-weight: 400;">core</h3>
+        <div class="d-flex justify-content-center flex-wrap">
+          <span class="skill-chip"><i class="fas fa-comments" style="color: #ea4335;"></i>Communication</span>
+          <span class="skill-chip"><i class="fas fa-puzzle-piece" style="color: #fbbc05;"></i>Problem solving</span>
+          <span class="skill-chip"><i class="fas fa-layer-group" style="color: #34a853;"></i>Full-stack</span>
+          <span class="skill-chip"><i class="fas fa-people-arrows" style="color: #2563eb;"></i>Cross-functional</span>
+          <span class="skill-chip"><i class="fas fa-home" style="color: #ea4335;"></i>Remote work</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <hr>
+
+  <!-- projects with unsplash images -->
+  <section id="projects">
+    <div class="container">
+      <h2><i class="fas fa-rocket"></i>projects</h2>
+      <div class="row g-4">
+        <div class="col-md-6 col-lg-4">
+          <div class="project-card">
+            <img src="https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=600&h=400&fit=crop&auto=format" alt="Restaurant API" class="project-img">
+            <div class="project-content">
+              <div class="project-tech">
+                <i class="fab fa-laravel" style="color: #ff2d20;"></i>
+                <i class="fab fa-vuejs" style="color: #4fc08d;"></i>
+              </div>
+              <h3>restaurant delivery API</h3>
+              <p>RESTful API for delivery service with real-time order tracking and partner integration.</p>
+              <a href="#" class="project-link">explore mission <i class="fas fa-arrow-right"></i></a>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6 col-lg-4">
+          <div class="project-card">
+            <img src="https://images.unsplash.com/photo-1603731955926-81917dad5a80?q=80&w=1074&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="WiFi Ticketing" class="project-img">
+            <div class="project-content">
+              <div class="project-tech">
+                <i class="fab fa-vuejs" style="color: #4fc08d;"></i>
+                <i class="fab fa-php" style="color: #777bb4;"></i>
+              </div>
+              <h3>WiFi ticketing system</h3>
+              <p>Real-time authentication and usage tracking for WiFi services with admin dashboard.</p>
+              <a href="#" class="project-link">explore mission <i class="fas fa-arrow-right"></i></a>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6 col-lg-4">
+          <div class="project-card">
+            <img src="https://images.unsplash.com/photo-1556155092-490a1ba16284?w=600&h=400&fit=crop&auto=format" alt="EV Accessories" class="project-img">
+            <div class="project-content">
+              <div class="project-tech">
+                <i class="fab fa-laravel" style="color: #ff2d20;"></i>
+                <i class="fab fa-tailwind-css" style="color: #06b6d4;"></i>
+              </div>
+              <h3>EV accessories store</h3>
+              <p>E-commerce platform with inventory management, secure checkout, and order tracking.</p>
+              <a href="#" class="project-link">explore mission <i class="fas fa-arrow-right"></i></a>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6 col-lg-4">
+          <div class="project-card">
+            <img src="https://images.unsplash.com/photo-1559297434-fae8a1916a79?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Logistics Platform" class="project-img">
+            <div class="project-content">
+              <div class="project-tech">
+                <i class="fab fa-php" style="color: #777bb4;"></i>
+                <i class="fas fa-database" style="color: #00758f;"></i>
+              </div>
+              <h3>logistics platform</h3>
+              <p>Complete management system with real-time tracking and reporting for logistics companies.</p>
+              <a href="#" class="project-link">explore mission <i class="fas fa-arrow-right"></i></a>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6 col-lg-4">
+          <div class="project-card">
+            <img src="https://images.unsplash.com/photo-1581291518633-83b4ebd1d83e?w=600&h=400&fit=crop&auto=format" alt="Design System" class="project-img">
+            <div class="project-content">
+              <div class="project-tech">
+                <i class="fab fa-figma" style="color: #f24e1e;"></i>
+                <i class="fab fa-react" style="color: #61dafb;"></i>
+              </div>
+              <h3>UI/UX design system</h3>
+              <p>Component library with wireframes, prototypes, and accessibility guidelines.</p>
+              <a href="#" class="project-link">explore mission <i class="fas fa-arrow-right"></i></a>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6 col-lg-4">
+          <div class="project-card">
+            <img src="https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=600&h=400&fit=crop&auto=format" alt="API Gateway" class="project-img">
+            <div class="project-content">
+              <div class="project-tech">
+                <i class="fas fa-cloud" style="color: #2563eb;"></i>
+                <i class="fab fa-react" style="color: #61dafb;"></i>
+              </div>
+              <h3>API gateway service</h3>
+              <p>Authentication, rate limiting, request logging, and microservices orchestration.</p>
+              <a href="#" class="project-link">explore mission <i class="fas fa-arrow-right"></i></a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <hr>
+
+  <!-- ===== ENHANCED EXPERIENCE SECTION ===== -->
+  <section id="experience">
+    <div class="container">
+      <h2><i class="fas fa-timeline"></i>experience</h2>
+      
+      <!-- Junior Backend Developer - Expanded -->
+      <div class="exp-card">
+        <div class="exp-header">
+          <div class="exp-icon">
+            <i class="fas fa-code"></i>
+          </div>
+          <div>
+            <div class="exp-date">2023 - Present</div>
+            <h3 class="exp-title">Junior Backend Developer</h3>
+            <div class="exp-company">Cosmos the Future · Remote (First Role)</div>
+          </div>
+        </div>
+        
+        <ul class="exp-list">
+          <li><i class="fas fa-check-circle"></i> Developed and maintained 15+ RESTful API endpoints for restaurant delivery service handling 10k+ daily orders</li>
+          <li><i class="fas fa-check-circle"></i> Built real-time authentication system for WiFi ticketing platform serving 5000+ daily users across 100+ hotspots</li>
+          <li><i class="fas fa-check-circle"></i> Contributed to logistics platform with route optimization algorithms for 50+ delivery drivers</li>
+          <li><i class="fas fa-check-circle"></i> Developed e-commerce backend for EV accessories store with inventory management and secure checkout</li>
+          <li><i class="fas fa-check-circle"></i> Optimized database queries resulting in 30% faster data retrieval and reduced server load by 25%</li>
+          <li><i class="fas fa-check-circle"></i> Created comprehensive API documentation used by 3 frontend developers and external partners</li>
+          <li><i class="fas fa-check-circle"></i> Participated in 50+ code reviews and mentored 2 junior developers in best practices</li>
+          <li><i class="fas fa-check-circle"></i> Tech stack: Vue.js, PHP, Laravel, MySQL, Bootstrap, Tailwind CSS, RESTful APIs</li>
+        </ul>
+        
+        <div style="margin-top: 1.5rem; padding: 1rem; background: rgba(37, 99, 235, 0.1); border-radius: 12px; border-left: 3px solid #2563eb;">
+          <p style="color: #b0b7c5; margin-bottom: 0;"><i class="fas fa-quote-left me-2" style="color: #2563eb;"></i> This remote role taught me async communication, time zone management, and how to deliver production-ready code independently. I grew from writing basic functions to architecting complete API solutions.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <hr>
+
+  <!-- ===== ENHANCED EDUCATION & CERTIFICATIONS ===== -->
+  <section id="education">
+    <div class="container">
+      <h2><i class="fas fa-graduation-cap"></i>education</h2>
+      
+      <!-- Education Cards with Logos -->
+      <div class="row g-4 mb-5">
+        <div class="col-md-6">
+          <div class="edu-card">
+            <div class="edu-logo">
+              <img src="./images/dulogo.png" alt="Dagon University" onerror="this.src='https://placehold.co/80x80/2563eb/white?text=DU'">
+            </div>
+            <div class="edu-content">
+              <h3>Dagon University</h3>
+              <p>Second-Year English Student</p>
+              <p class="edu-date">2022 - Present · Yangon, Myanmar</p>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="edu-card">
+            <div class="edu-logo">
+              <img src="./images/ncclogo.png" alt="NCC Education" onerror="this.src='https://placehold.co/80x80/2563eb/white?text=NCC'">
+            </div>
+            <div class="edu-content">
+              <h3>NCC Education (KMD College)</h3>
+              <p>Level 4 Diploma in Computing (L4DC)</p>
+              <p>First year equivalent of UK IT degree</p>
+              <p class="edu-date">2023 - 2024 · Yangon, Myanmar</p>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="edu-card">
+            <div class="edu-logo">
+              <img src="./images/ncclogo.png" alt="NCC Education" onerror="this.src='https://placehold.co/80x80/2563eb/white?text=NCC'">
+            </div>
+            <div class="edu-content">
+              <h3>NCC Education (KMD College)</h3>
+              <p>Level 5 Diploma in Computing (L5DC)</p>
+              <p>Second year equivalent of UK IT degree</p>
+              <p class="edu-date">2024 - 2025 · Yangon, Myanmar</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <h2 style="margin-top: 4rem;"><i class="fas fa-certificate"></i>certifications</h2>
+      
+      <!-- Certification Grid with Logos -->
+      <div class="cert-grid">
+        <!-- Fairway Certifications -->
+        <div class="cert-card">
+          <div class="cert-logo">
+            <img src="./images/fairway.jfif" alt="Fairway Technology" onerror="this.src='https://placehold.co/50x50/ff7b9c/white?text=FT'">
+          </div>
+          <div class="cert-info">
+            <h4>Programming Basic</h4>
+            <p>Fairway Technology · 2023</p>
+          </div>
+        </div>
+
+        <div class="cert-card">
+          <div class="cert-logo">
+            <img src="./images/fairway.jfif" alt="Fairway Technology" onerror="this.src='https://placehold.co/50x50/b37bff/white?text=FT'">
+          </div>
+          <div class="cert-info">
+            <h4>UI/UX & Web Design</h4>
+            <p>Fairway Technology · 2023</p>
+          </div>
+        </div>
+
+        <div class="cert-card">
+          <div class="cert-logo">
+            <img src="./images/fairway.jfif" alt="Fairway Technology" onerror="this.src='https://placehold.co/50x50/2563eb/white?text=FT'">
+          </div>
+          <div class="cert-info">
+            <h4>Professional Web Developer</h4>
+            <p>Fairway Technology · 2024</p>
+          </div>
+        </div>
+
+        <!-- Google Certifications -->
+        <div class="cert-card">
+          <div class="cert-logo">
+            <img src="https://www.google.com/images/branding/googlelogo/2x/googlelogo_color_92x30dp.png" alt="Google" onerror="this.src='https://placehold.co/50x50/4285f4/white?text=G'">
+          </div>
+          <div class="cert-info">
+            <h4>Foundation of UX</h4>
+            <p>Google · 2024</p>
+          </div>
+        </div>
+
+        <div class="cert-card">
+          <div class="cert-logo">
+            <img src="https://www.google.com/images/branding/googlelogo/2x/googlelogo_color_92x30dp.png" alt="Google" onerror="this.src='https://placehold.co/50x50/4285f4/white?text=G'">
+          </div>
+          <div class="cert-info">
+            <h4>Empathize, Define, Ideate</h4>
+            <p>Google · 2024</p>
+          </div>
+        </div>
+
+        <div class="cert-card">
+          <div class="cert-logo">
+            <img src="https://www.google.com/images/branding/googlelogo/2x/googlelogo_color_92x30dp.png" alt="Google" onerror="this.src='https://placehold.co/50x50/4285f4/white?text=G'">
+          </div>
+          <div class="cert-info">
+            <h4>Wireframes & Prototypes</h4>
+            <p>Google · 2024</p>
+          </div>
+        </div>
+
+        <div class="cert-card">
+          <div class="cert-logo">
+            <img src="https://www.google.com/images/branding/googlelogo/2x/googlelogo_color_92x30dp.png" alt="Google" onerror="this.src='https://placehold.co/50x50/4285f4/white?text=G'">
+          </div>
+          <div class="cert-info">
+            <h4>Conduct UX Research</h4>
+            <p>Google · 2024</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <hr>
+
+  <!-- contact -->
+  <section id="contact">
+    <div class="container">
+      <h2><i class="fas fa-satellite"></i>contact</h2>
+      <div class="row g-5">
+        <div class="col-md-6">
+          <a href="mailto:nyiminhtut2003@gmail.com" class="contact-item">
+            <i class="fas fa-envelope" style="color: #ea4335;"></i>
+            nyiminhtut2003@gmail.com
+          </a>
+          <a href="tel:09443250159" class="contact-item">
+            <i class="fas fa-phone-alt" style="color: #34a853;"></i>
+            09443250159
+          </a>
+          <a href="https://github.com/Nyi-Min-Htut" class="contact-item" target="_blank">
+            <i class="fab fa-github"></i>
+            github.com/Nyi-Min-Htut
+          </a>
+          <a href="https://www.linkedin.com/in/nyi-min-htut-104905247/" class="contact-item" target="_blank">
+            <i class="fab fa-linkedin" style="color: #0077b5;"></i>
+            linkedin.com/in/nyi-min-htut
+          </a>
+          <div class="contact-item">
+            <i class="fas fa-map-pin" style="color: #fbbc05;"></i>
+            No.28, South Race Course st, Tamwe, Yangon
+          </div>
+        </div>
+        <div class="col-md-6">
+          <form>
+            <input type="text" class="minimal-input mb-3" placeholder="your name">
+            <input type="email" class="minimal-input mb-3" placeholder="email address">
+            <textarea class="minimal-input mb-3" rows="5" placeholder="your message"></textarea>
+            <button class="btn-minimal"><i class="fas fa-paper-plane me-2"></i>send message</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- footer -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-links">
+        <a href="https://github.com/Nyi-Min-Htut"><i class="fab fa-github"></i></a>
+        <a href="https://www.linkedin.com/in/nyi-min-htut-104905247/"><i class="fab fa-linkedin"></i></a>
+        <a href="#"><i class="fab fa-x-twitter"></i></a>
+      </div>
+      <div class="footer-text">
+        © 2026 Nyi Min Htut · full-stack developer
+      </div>
+      <div class="footer-text mt-3">
+        <i class="fas fa-star" style="color: #2563eb; font-size: 0.6rem;"></i>
+        <i class="fas fa-star" style="color: #2563eb; font-size: 0.6rem; margin: 0 6px;"></i>
+        <i class="fas fa-star" style="color: #2563eb; font-size: 0.6rem;"></i>
+      </div>
+    </div>
+  </footer>
+
+</body>
+</html>
